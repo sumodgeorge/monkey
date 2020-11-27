@@ -160,7 +160,7 @@ class MonkeyDrops(object):
                     LOG.debug("Error removing source file '%s': %s", self._config['source_path'], exc)
 
                     # mark the file for removal on next boot
-                    dropper_source_path_ctypes = c_char_p(self._config['source_path'])
+                    dropper_source_path_ctypes = c_char_p(self._config['source_path'].encode())
                     if 0 == ctypes.windll.kernel32.MoveFileExA(dropper_source_path_ctypes, None,
                                                                MOVEFILE_DELAY_UNTIL_REBOOT):
                         LOG.debug("Error marking source file '%s' for deletion on next boot (error %d)",
