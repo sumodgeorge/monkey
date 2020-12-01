@@ -686,6 +686,8 @@ class ReportService:
                     issues_byte_array[ReportService.ISSUES_DICT.HADOOP.value] = True
                 elif issue['type'] == 'drupal':
                     issues_byte_array[ReportService.ISSUES_DICT.DRUPAL.value] = True
+                elif issue['type'] == 'powershell':
+                    issues_byte_array[ReportService.ISSUES_DICT.POWERSHELL.value] = True
                 elif issue['type'].endswith('_password') and issue['password'] in config_passwords and \
                         issue['username'] in config_users or issue['type'] == 'ssh':
                     issues_byte_array[ReportService.ISSUES_DICT.WEAK_PASSWORD.value] = True
