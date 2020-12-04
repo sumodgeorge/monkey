@@ -39,7 +39,8 @@ class ReportPageComponent extends AuthComponent {
       PTH_CRIT_SERVICES_ACCESS: 11,
       MSSQL: 12,
       VSFTPD: 13,
-      POWERSHELL: 15
+      POWERSHELL: 15,
+      PSEXEC: 16
     };
 
   Warning =
@@ -299,6 +300,8 @@ class ReportPageComponent extends AuthComponent {
                     <li>MS-SQL servers are vulnerable to remote code execution via xp_cmdshell command.</li> : null}
                   {this.state.report.overview.issues[this.Issue.POWERSHELL] ?
                     <li>Windows servers allow powershell remote command execution.</li> : null}
+                  {this.state.report.overview.issues[this.Issue.PSEXEC] ?
+                    <li>Windows servers are configured to allow PsExec remote execution.</li> : null}
                 </ul>
               </div>
               :
@@ -872,6 +875,22 @@ class ReportPageComponent extends AuthComponent {
     );
   }
 
+  generatePsExecIssue(issue) {
+    return (
+      <>
+        Disable or block SMB services, disable "File and Print Sharing" or disable Admin$ share.
+        <CollapsibleWellComponent>
+          The machine <span className="badge badge-primary">{issue.machine}</span> (<span
+          className="badge badge-info" style={{margin: '2px'}}>{issue.ip_address}</span>) was exploited via <span
+          className="badge badge-danger">PsExec remoting.</span>.
+          <br/>
+          The attack was made possible because the target machine met all conditions for PsExec remoting and Monkey
+          had access to correct credentials.
+        </CollapsibleWellComponent>
+      </>
+    );
+  }
+
   generateIssue = (issue) => {
     let issueData;
     switch (issue.type) {
@@ -946,6 +965,9 @@ class ReportPageComponent extends AuthComponent {
         break;
       case 'powershell':
         issueData = this.generatePowershellIssue(issue);
+        break;
+      case 'psexec':
+        issueData = this.generatePsExecIssue(issue);
         break;
     }
     return <li key={JSON.stringify(issue)}>{issueData}</li>;
