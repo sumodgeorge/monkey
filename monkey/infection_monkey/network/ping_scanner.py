@@ -5,6 +5,7 @@ import subprocess
 import sys
 
 import infection_monkey.config
+from infection_monkey.model.host_consts import OsType
 from infection_monkey.network.HostFinger import HostFinger
 from infection_monkey.network.HostScanner import HostScanner
 
@@ -59,9 +60,9 @@ class PingScanner(HostScanner, HostFinger):
             try:
                 ttl = int(regex_result.group(0))
                 if ttl <= LINUX_TTL:
-                    host.os['type'] = 'linux'
+                    host.os['type'] = OsType.linux
                 else:  # as far we we know, could also be OSX/BSD but lets handle that when it comes up.
-                    host.os['type'] = 'windows'
+                    host.os['type'] = OsType.windows
                 return True
             except Exception as exc:
                 LOG.debug("Error parsing ping fingerprint: %s", exc)

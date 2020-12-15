@@ -1,6 +1,7 @@
 import re
 
 import infection_monkey.config
+from infection_monkey.model.host_consts import OsType
 from infection_monkey.network.HostFinger import HostFinger
 from infection_monkey.network.tools import check_tcp_port
 
@@ -24,7 +25,7 @@ class SSHFinger(HostFinger):
         host.services[service]['name'] = 'ssh'
         for dist in LINUX_DIST_SSH:
             if banner.lower().find(dist) != -1:
-                host.os['type'] = 'linux'
+                host.os['type'] = OsType.linux
                 os_version = banner.split(' ').pop().strip()
                 if 'version' not in host.os:
                     host.os['version'] = os_version

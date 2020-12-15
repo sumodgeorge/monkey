@@ -4,6 +4,7 @@ import struct
 
 from odict import odict
 
+from infection_monkey.model.host_consts import OsType
 from infection_monkey.network.HostFinger import HostFinger
 
 SMB_PORT = 445
@@ -148,9 +149,9 @@ class SMBFinger(HostFinger):
                     [e.replace(b'\x00', b'').decode() for e in data[47 + length:].split(b'\x00\x00\x00')[:2]])
 
                 if os_version.lower() != 'unix':
-                    host.os['type'] = 'windows'
+                    host.os['type'] = OsType.windows
                 else:
-                    host.os['type'] = 'linux'
+                    host.os['type'] = OsType.linux
 
                 host.services[SMB_SERVICE]['name'] = service_client
                 if 'version' not in host.os:
