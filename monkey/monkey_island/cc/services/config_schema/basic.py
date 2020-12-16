@@ -29,7 +29,8 @@ BASIC = {
                         "MSSQLExploiter",
                         "DrupalExploiter",
                         "PowershellExploiter",
-                        "PsExecExploiter"
+                        "PsExecExploiter",
+                        "ScmrExploiter"
                     ]
                 }
             }

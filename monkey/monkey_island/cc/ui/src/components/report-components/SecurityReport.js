@@ -40,7 +40,8 @@ class ReportPageComponent extends AuthComponent {
       MSSQL: 12,
       VSFTPD: 13,
       POWERSHELL: 15,
-      PSEXEC: 16
+      PSEXEC: 16,
+      SCMR: 17
     };
 
   Warning =
@@ -151,8 +152,7 @@ class ReportPageComponent extends AuthComponent {
             <p className="alert alert-info">
               <FontAwesomeIcon icon={faExclamationTriangle} style={{'marginRight': '5px'}}/>
               To improve the monkey's detection rates, try adding users and passwords and enable the "Local
-              network
-              scan" config value under <b>Basic - Network</b>.
+              network scan" config value under <b>Basic - Network</b>.
             </p>
         }
         <p>
@@ -302,6 +302,9 @@ class ReportPageComponent extends AuthComponent {
                     <li>Windows servers allow powershell remote command execution.</li> : null}
                   {this.state.report.overview.issues[this.Issue.PSEXEC] ?
                     <li>Windows servers are configured to allow PsExec remote execution.</li> : null}
+                  {this.state.report.overview.issues[this.Issue.SCMR] ?
+                    <li>Windows servers have RPC and SCMR ports open,
+                      which leaves them vulnerable to remote service creation.</li> : null}
                 </ul>
               </div>
               :
@@ -891,6 +894,22 @@ class ReportPageComponent extends AuthComponent {
     );
   }
 
+  generateScmrIssue(issue) {
+    return (
+      <>
+        Block RPC and SCMR ports in the local firewall and secure the password of user {issue.username}.
+        <CollapsibleWellComponent>
+          The machine <span className="badge badge-primary">{issue.machine}</span> (<span
+          className="badge badge-info" style={{margin: '2px'}}>{issue.ip_address}</span>) was exploited via <span
+          className="badge badge-danger">MS-SCMR</span>.
+          <br/>
+          The attack was made possible because the target machine exposed RPC and SCMR ports and the Monkey was
+           able to use {issue.username} credentials.
+        </CollapsibleWellComponent>
+      </>
+    );
+  }
+
   generateIssue = (issue) => {
     let issueData;
     switch (issue.type) {
@@ -968,6 +987,9 @@ class ReportPageComponent extends AuthComponent {
         break;
       case 'psexec':
         issueData = this.generatePsExecIssue(issue);
+        break;
+      case 'scmr':
+        issueData = this.generateScmrIssue(issue);
         break;
     }
     return <li key={JSON.stringify(issue)}>{issueData}</li>;
