@@ -15,4 +15,5 @@ pypykatz==0.3.12
 pypsrp>=0.5.0
 pysmb==1.2.5
 requests>=2.24
+cryptography==2.5
 wmi==1.5.1 ; sys_platform == 'win32'
