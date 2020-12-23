@@ -2,7 +2,9 @@ Flask-JWT-Extended>=3.25
 Flask-Pymongo>=2.3.0
 Flask-Restful>=0.3.8
 PyInstaller==3.6
-awscli>=1.18
+awscli
+boto3
+botocore
 cffi>=1.8,!=1.11.3
 dpath>=2.0
 flask>=1.1
