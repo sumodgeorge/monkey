@@ -79,7 +79,8 @@ def init_app_config(app, mongo_url):
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = env_singleton.env.get_auth_expiration_time()
     # Invalidate the signature of JWTs if the server process restarts. This avoids the edge case of getting a JWT,
     # deciding to reset credentials and then still logging in with the old JWT.
-    app.config['JWT_SECRET_KEY'] = str(uuid.uuid4())
+    # TODO figure out propper secret
+    app.config['JWT_SECRET_KEY'] = "abc"
 
     # By default, Flask sorts keys of JSON objects alphabetically, which messes with the ATT&CK matrix in the
     # configuration. See https://flask.palletsprojects.com/en/1.1.x/config/#JSON_SORT_KEYS.
