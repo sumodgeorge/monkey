@@ -7,7 +7,12 @@ def parse_cli_args():
     parser.add_argument("-s", "--setup-only", action="store_true",
                         help="Pass this flag to cause the Island to setup and exit without actually starting. This is useful "
                              "for preparing Island to boot faster later-on, so for compiling/packaging Islands.")
+    parser.add_argument("-d", "--debug", action="store_true",
+                        help="Pass this flag to start interactive debugging.")
     args = parser.parse_args()
+    if args.debug:
+        import pdb
+        pdb.set_trace()
     return args.setup_only
 
 
