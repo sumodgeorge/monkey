@@ -15,9 +15,7 @@ class Encryptor:
     _PASSWORD_FILENAME = "mongo_key.bin"
 
     def __init__(self, password_file_dir):
-        password_file = os.path.expanduser(
-            os.path.join(password_file_dir, self._PASSWORD_FILENAME)
-        )
+        password_file = os.path.join(password_file_dir, self._PASSWORD_FILENAME)
 
         if os.path.exists(password_file):
             self._load_existing_key(password_file)
@@ -39,7 +37,7 @@ class Encryptor:
         )
 
     def _unpad(self, message: str):
-        return message[0 : -ord(message[len(message) - 1])]
+        return message[0:-ord(message[len(message) - 1])]
 
     def enc(self, message: str):
         cipher_iv = Random.new().read(AES.block_size)
@@ -50,9 +48,9 @@ class Encryptor:
 
     def dec(self, enc_message):
         enc_message = base64.b64decode(enc_message)
-        cipher_iv = enc_message[0 : AES.block_size]
+        cipher_iv = enc_message[0:AES.block_size]
         cipher = AES.new(self._cipher_key, AES.MODE_CBC, cipher_iv)
-        return self._unpad(cipher.decrypt(enc_message[AES.block_size :]).decode())
+        return self._unpad(cipher.decrypt(enc_message[AES.block_size:]).decode())
 
 
 def initialize_encryptor(password_file_dir):
