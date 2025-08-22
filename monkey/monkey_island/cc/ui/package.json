@@ -91,7 +91,7 @@
     "lodash": "^4.17.21",
     "markdown-to-jsx": "^7.3.2",
     "nanoid": "^4.0.2",
-    "node-polyfill-webpack-plugin": "^2.0.1",
+    "node-polyfill-webpack-plugin": "^4.1.0",
     "normalize.css": "^8.0.1",
     "pluralize": "^8.0.0",
     "prop-types": "^15.8.1",
